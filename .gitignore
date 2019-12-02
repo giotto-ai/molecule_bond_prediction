@@ -105,3 +105,10 @@ venv.bak/
 
 # Other
 *.pickle
+
+
+# Data folders
+data/*
+!data/.gitkeep
+
+.DS_Store
