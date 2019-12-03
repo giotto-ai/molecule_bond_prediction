@@ -1,4 +1,4 @@
-# Description of this repo
+# Description of this repository
 The goal of this repo is to ...
 This demo is based on the Kaggle competition 'Predicting Molecular Properties' (Link: https://www.kaggle.com/c/champs-scalar-coupling/overview) where the task is to predict the bond strength between atoms in molecules.
 
