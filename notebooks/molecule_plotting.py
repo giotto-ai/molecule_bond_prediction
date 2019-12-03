@@ -1,5 +1,7 @@
 # Inspired by the following notebook: https://www.kaggle.com/mykolazotko/3d-visualization-of-molecules-with-plotly
 # Imports
+import pandas as pd
+import numpy as np
 import plotly.graph_objs as go
 from sympy.geometry import Point3D
 
@@ -27,7 +29,7 @@ def plot_molecule(molecule_name, structures_df):
             ids_compare = np.roll(ids_compare, -1, axis=0)
             distances = np.linalg.norm(coordinates - coordinates_compare, axis=1)
             bond_distances = (r + radii_compare) * 1.3
-            mask = np.logical_and(distances > 0.1, distances <  bond_distances)
+            mask = np.logical_and(distances > 0.1, distances < bond_distances)
             distances = distances.round(2)
             new_bonds = {frozenset([i, j]): dist for i, j, dist in zip(ids[mask], ids_compare[mask], distances[mask])}
             bonds.update(new_bonds)
