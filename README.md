@@ -13,3 +13,9 @@ The repo contains the following:
 # External code
 For non-TDA features: https://www.kaggle.com/robertburbidge/distance-features <br>
 For plotting molecules: https://www.kaggle.com/mykolazotko/3d-visualization-of-molecules-with-plotly
+
+# Some related publications
+The idea to use topological data analysis for predictions on molecules is not new. Below you can find some interesting papers related to this:
+
+* Persistent-Homology-based Machine Learning and its Applications – A Survey: https://arxiv.org/abs/1811.00252 (esp. section 5)
+* Representability of algebraic topology for biomolecules in machine learning based scoring and virtual screening: https://arxiv.org/pdf/1708.08135.pdf
