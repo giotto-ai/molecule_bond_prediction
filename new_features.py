@@ -1,3 +1,5 @@
+import numpy as np
+
 # Binned features
 def binned_features(X, homology_dim):
     """Compute binned features from the persistence diagram.
