@@ -12,6 +12,7 @@ The repo contains the following:
 
 # External code
 The following Kaggle notebooks were used for this project:
+
 For non-TDA features: https://www.kaggle.com/robertburbidge/distance-features <br>
 For plotting molecules (but adapted): https://www.kaggle.com/mykolazotko/3d-visualization-of-molecules-with-plotly
 
