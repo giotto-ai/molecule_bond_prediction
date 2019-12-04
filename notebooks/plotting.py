@@ -190,7 +190,7 @@ def plot_diagram(diagram, homology_dimensions=None):
         fig.add_trace(gobj.Scatter(x=subdiagram[:, 0], y=subdiagram[:, 1],
                                    mode='markers', name=name))
 
-    fig.show()
+    return fig
 
 
 def plot_landscapes(landscapes, homology_dimensions=None, samplings=None):
