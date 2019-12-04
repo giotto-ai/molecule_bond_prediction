@@ -105,6 +105,7 @@ venv.bak/
 
 # Other
 *.pickle
+*.csv
 
 
 # Data folders
