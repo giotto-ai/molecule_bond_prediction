@@ -1,19 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
+import numpy as np
+import pandas as pd
 
-# There are several kernels that use brute force feature engineering that achieve better LB scores than this one but some of the features are not easy to understand from a physical point-of-view. In this kernel I only use distances and atom types to derive features that are easy to visualize n one's head (I hope). Then I use LightGBM to predict the scalar coupling constant. Also, to estimate the LB score I use training and validation sets which do not contain the same molecules.
-
-
-# This Python 3 environment comes with many helpful analytics libraries installed
-# It is defined by the kaggle/python docker image: https://github.com/kaggle/docker-python
-# For example, here's several helpful packages to load in
-
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import fire
-
-# Input data files are available in the "../input/" directory.
-# For example, running this (by clicking run or pressing Shift+Enter) will list the files in the input directory
 
 from scipy.stats import skew, kurtosis
 from numpy.random import permutation
@@ -26,12 +14,14 @@ from giotto.homology import VietorisRipsPersistence
 import time
 from itertools import product
 import networkx as nx
+import pickle
 
 
 ################################################################################
 
 def map_atom_info(df, atom_idx, structures):
     """
+    Source: https://www.kaggle.com/robertburbidge/distance-features
     INPUT:
         df: DataFrame of train or test data
         atom_idx: int, either 0 or 1
@@ -121,30 +111,6 @@ def graph_from_molecule(molecule, source='atom_index_0', target='atom_index_1'):
     return graph
 
 
-def graph_from_molecule_weighted(molecule):
-    """
-    INPUT:
-        molecule: DataFrame of molecule as a subset of rows of train/test data (incl x,y,z coords etc.)
-
-    OUTPUT:
-        graph: networkx object, where edges are given by bonds in molecule and with weights
-    """
-    edges = molecule[['atom_index_0', 'atom_index_1']].values
-    types = molecule[['type_0', 'type_1']].values
-    def weight(t):
-        if list(t)==[0,1]:
-            return 2
-        elif list(t)==[0,2]:
-            return 1
-        else:
-            return 5
-
-    G = nx.Graph()
-    for e, t in zip(edges, types):
-        G.add_edge(e[0], e[1], weight=weight(np.sort(t)))
-    return G
-
-
 def calculate_dist(graph, node_tuple):
     """
     INPUT:
@@ -177,6 +143,7 @@ def computing_distance_matrix(graph):
     dist_mat[row, column] = dist_list
     dist_mat[column, row] = dist_list
     dist_mat[range(len(dist_mat)), range(len(dist_mat))] = 0.
+    print(dist_mat)
     return dist_mat
 
 
@@ -197,8 +164,8 @@ def computing_persistence_diagram(G, t=np.inf, homologyDimensions = (0, 1, 2)):
 
     start = time.time()
     persistenceDiagram = VietorisRipsPersistence(metric='precomputed', max_edge_length=t,
-                                                    homology_dimensions=homologyDimensions,
-                                                    n_jobs=-1)
+                                                 homology_dimensions=homologyDimensions,
+                                                 n_jobs=-1)
     Diagrams = persistenceDiagram.fit_transform(dist_mat.reshape(1, dist_mat.shape[0], dist_mat.shape[1]))
     end = time.time()
     #print('Computing TDA:', end - start)
@@ -308,10 +275,14 @@ def area_under_Betti_curve(X_betti_curves, homology_dim):
     return area
 
 
-# distance to nearest neighbours (by atom_index)
-# if there is no atom to the "left" (respectively "right") of the atom of interest, then the distance is zero but this could be coded as NA
+
 def lrdist(df):
+    # distance to nearest neighbours (by atom_index)
+    # if there is no atom to the "left" (respectively "right") of the atom of interest,
+    # then the distance is zero but this could be coded as NA
     # left and right indices - 0
+    # Source: https://www.kaggle.com/robertburbidge/distance-features
+
     df['atom_index_0l'] = df['atom_index_0'].apply(lambda i: max(i - 1, 0))
     tmp = df[['atom_index_0', 'atom_count']]
     df['atom_index_0r'] = tmp.apply(lambda row: min(row['atom_index_0'] + 1, row['atom_count']), axis=1)
@@ -345,6 +316,8 @@ def lrdist(df):
 
 
 def map_atom_info(df, atom_idx):
+    # Helper function used for calculating non-TDA features
+    # Source: https://www.kaggle.com/robertburbidge/distance-features
     file_folder = '../data/raw'
     structures = pd.read_csv(f'{file_folder}/structures.csv')
     df = pd.merge(df, structures, how='left',
@@ -359,8 +332,9 @@ def map_atom_info(df, atom_idx):
     return df
 
 
-# statistics of dist by molecule
 def mol_dist_stats(df):
+    # statistics of dist by molecule
+    # Source: https://www.kaggle.com/robertburbidge/distance-features
     dist_mean = df.groupby('molecule_name')['dist'].apply(np.mean).reset_index()
     dist_mean.rename({'dist': 'molecule_dist_mean'}, axis=1, inplace=True)
     df = pd.merge(df, dist_mean, how='left', on='molecule_name')
@@ -376,8 +350,11 @@ def mol_dist_stats(df):
     return df
 
 
-# https://www.kaggle.com/artgor/artgor-utils
 def reduce_mem_usage(df, verbose=True):
+    # Helper function used for calculating non-TDA features
+    # Source: https://www.kaggle.com/robertburbidge/distance-features and
+    # https://www.kaggle.com/artgor/artgor-utils
+
     numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
     start_mem = df.memory_usage().sum() / 1024 ** 2
     for col in df.columns:
@@ -409,7 +386,10 @@ def reduce_mem_usage(df, verbose=True):
 
 # The execution of this cell takes a while
 def get_bonds(molecule_name, structures):
-    """Generates a set of bonds from atomic cartesian coordinates"""
+    """
+    Generates a set of bonds from atomic cartesian coordinates
+    Source: https://www.kaggle.com/robertburbidge/distance-features
+    """
     atomic_radii = dict(C=0.77, F=0.71, H=0.38, N=0.75, O=0.73)
     cpk_colors = dict(C='black', F='green', H='white', N='blue', O='red')
 
@@ -437,7 +417,20 @@ def get_bonds(molecule_name, structures):
     return [list(x) for x in list(bonds)]
 
 
-def create_and_save_features(persistence_diagram, molecule_selection):
+def create_and_save_features(persistence_diagrams, molecule_selection, save_file=False, filename='all_features'):
+    """
+    Function to create TDA features given a list of persistence diagrams.
+    INPUT:
+        persistence_diagrams - list of persistence diagrams
+        molecule_selection - list of molecule names
+        save - boolean: if True: output will be saved to a pickle file
+        filename - str: name of the pickle file to use if the file is saved
+
+    OUTPUT:
+        all_features - a dictionary of dictionaries where the key is the features
+                       and the key of the subdictionary is the molecule name
+
+    """
     num_rel_holes_0 = []
     num_rel_holes_1 = []
     num_rel_holes_2 = []
@@ -450,16 +443,16 @@ def create_and_save_features(persistence_diagram, molecule_selection):
     amplitude = []
 
     for m in range(len(molecule_selection)):
-        num_rel_holes_0.append(num_relevant_holes(persistence_diagram[m], homology_dim=0))
-        num_rel_holes_1.append(num_relevant_holes(persistence_diagram[m], homology_dim=1))
-        num_rel_holes_2.append(num_relevant_holes(persistence_diagram[m], homology_dim=2))
-        num_holes_0.append(num_relevant_holes(persistence_diagram[m], homology_dim=0, theta=0))
-        num_holes_1.append(num_relevant_holes(persistence_diagram[m], homology_dim=1, theta=0))
-        num_holes_2.append(num_relevant_holes(persistence_diagram[m], homology_dim=2, theta=0))
-        avg_lifetime_0.append(average_lifetime(persistence_diagram[m], homology_dim=0))
-        avg_lifetime_1.append(average_lifetime(persistence_diagram[m], homology_dim=1))
-        avg_lifetime_2.append(average_lifetime(persistence_diagram[m], homology_dim=2))
-        amplitude.append(calculate_amplitude_feature(persistence_diagram[m]))
+        num_rel_holes_0.append(num_relevant_holes(persistence_diagrams[m], homology_dim=0))
+        num_rel_holes_1.append(num_relevant_holes(persistence_diagrams[m], homology_dim=1))
+        num_rel_holes_2.append(num_relevant_holes(persistence_diagrams[m], homology_dim=2))
+        num_holes_0.append(num_relevant_holes(persistence_diagrams[m], homology_dim=0, theta=0))
+        num_holes_1.append(num_relevant_holes(persistence_diagrams[m], homology_dim=1, theta=0))
+        num_holes_2.append(num_relevant_holes(persistence_diagrams[m], homology_dim=2, theta=0))
+        avg_lifetime_0.append(average_lifetime(persistence_diagrams[m], homology_dim=0))
+        avg_lifetime_1.append(average_lifetime(persistence_diagrams[m], homology_dim=1))
+        avg_lifetime_2.append(average_lifetime(persistence_diagrams[m], homology_dim=2))
+        amplitude.append(calculate_amplitude_feature(persistence_diagrams[m]))
 
     num_rel_holes_0 = np.array(num_rel_holes_0).flatten()
     num_rel_holes_1 = np.array(num_rel_holes_1).flatten()
@@ -495,10 +488,25 @@ def create_and_save_features(persistence_diagram, molecule_selection):
                     'avg_lifetime_2': avg_lifetime_2_dict,
                     'amplitude': amplitude_dict}
 
+    if save_file==True:
+        with open('tda_features', 'wb') as f:
+            pickle.dump(all_features, f)
+
     return all_features
 
 
 def create_non_TDA_features(directory):
+    """
+    Create features for the baseline model. Code reused from here:
+    https://www.kaggle.com/robertburbidge/distance-features
+
+    INPUT:
+        directory - string: where to find train.csv and test.csv
+
+    OUTPUT:
+        train_dist.csv - CSV file with non-TDA features
+        test_dist.csv - CSV file with non-TDA features
+    """
     # Datasets
     train = pd.read_csv(directory + 'train.csv')
     test = pd.read_csv(directory + 'test.csv')
@@ -662,8 +670,8 @@ def create_non_TDA_features(directory):
                'feature_fraction': 0.9,
                'lambda_l1': 10.0,
                'max_bin': 255,
-               'min_child_samples': 15,
-               }
+               'min_child_samples': 15
+             }
 
     # data for LightGBM
     train_data = lightgbm.Dataset(X_train, label=y_train, categorical_feature=cat_feats)
