@@ -99,6 +99,83 @@ def calculate_amplitude_feature(X_scaled, metric='wasserstein', order=2):
     return amplitude.fit_transform(X_scaled)
 
 
+def length_Betti(persistence_diagram, n=2, homology_dim=0):
+    # The length of the nth longest Betti bar with a given dimension.
+    return np.partition(np.diff(persistence_diagram[:, :2][persistence_diagram[:, -1]==homology_dim]).flatten(), -1*n)[-1*n]
+
+
+def sum_length(persistence_diagram, homology_dim=0):
+    # The summation of lengths of all Betti bars with a given dimension
+    return np.diff(persistence_diagram[0][0][:,:2][persistence_diagram[0][0][:, -1] == 0]).sum()
+
+
+def average_length(persistence_diagram, homology_dim=0):
+    # The average of lengths of all Betti bars with a given dimension
+    return np.diff(persistence_diagram[:,:2][persistence_diagram[:, -1]==homology_dim]).mean()
+
+
+def onset_longest_Betti(persistence_diagram, homology_dim=1):
+    # The onset value of the longest Betti 1 bar.
+    return persistence_diagram[:,:2][persistence_diagram[:,-1]==homology_dim][np.diff(persistence_diagram[:,:2][persistence_diagram[:, -1]==homology_dim]).argmax()][0]
+
+
+def smallest_onset(persistence_diagram, homology_dim=1, cutoff=1.0):
+    # The smallest onset value of the Betti bar that is longer or equal to the cutoff for a given dimension.
+    return persistence_diagram[:,:2][(np.diff(persistence_diagram[:,:2])>=cutoff).flatten(),:].flatten()[0]
+
+
+def average_middle_point(persistence_diagram, cutoff, homology_dim=1):
+    # The average of the middle point values of all the Betti bars
+    # with a certain dim. that are longer than a given cutoff.
+    return persistence_diagram[:,:2][(np.diff(persistence_diagram[:,:2])>=cutoff).flatten(),:].mean(axis=1)
+
+
+def polynomial_feature_1(persistence_diagram, homology_dim):
+    #
+    if homology_dim in persistence_diagram[:, -1]:
+        N = test_pd[test_pd[:, -1]==homology_dim].shape[0]
+        return (test_pd[test_pd[:, -1]==homology_dim][:, 0]
+                * (test_pd[test_pd[:, -1]==homology_dim][:, 1]
+                - test_pd[test_pd[:, -1]==homology_dim][:, 0])).sum()/N
+    else:
+        print('No elements with dimension ', homology_dim)
+        return np.inf
+
+
+def polynomial_feature_2(persistence_diagram, homology_dim):
+    #
+    if homology_dim in persistence_diagram[:, -1]:
+        N = test_pd[test_pd[:, -1]==homology_dim].shape[0]
+        return ((test_pd[test_pd[:, -1]==homology_dim][:, 1].max() - test_pd[test_pd[:, -1]==homology_dim][:, 1])
+                * (test_pd[test_pd[:, -1]==homology_dim][:, 1] - test_pd[test_pd[:, -1]==homology_dim][:, 0])).sum()/N
+    else:
+        print('No elements with dimension ', homology_dim)
+        return np.inf
+
+
+def polynomial_feature_3(persistence_diagram, homology_dim):
+    #
+    if homology_dim in persistence_diagram[:, -1]:
+        N = test_pd[test_pd[:, -1]==homology_dim].shape[0]
+        return (test_pd[test_pd[:, -1]==homology_dim][:, 0]**2
+                * (test_pd[test_pd[:, -1]==homology_dim][:, 1]
+                - test_pd[test_pd[:, -1]==homology_dim][:, 0])**4).sum()/N
+    else:
+        print('No elements with dimension ', homology_dim)
+        return np.inf
+
+
+def polynomial_feature_4(persistence_diagram, homology_dim):
+    #
+    if homology_dim in persistence_diagram[:, -1]:
+        N = test_pd[test_pd[:, -1]==homology_dim].shape[0]
+        return ((test_pd[test_pd[:, -1]==homology_dim][:, 1].max() - test_pd[test_pd[:, -1]==homology_dim][:, 1])**2
+                * (test_pd[test_pd[:, -1]==homology_dim][:, 1] - test_pd[test_pd[:, -1]==homology_dim][:, 0])**4).sum()/N
+    else:
+        print('No elements with dimension ', homology_dim)
+        return np.inf
+
+
 def graph_from_molecule(molecule, source='atom_index_0', target='atom_index_1'):
     """
     INPUT:
