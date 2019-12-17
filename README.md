@@ -1,10 +1,10 @@
 # Description of this repository
-The goal of this repo is to ...
+The goal of this repo is to demonstrate how topological data analysis can be applied to problems in chemistry and materials science.
 This demo is based on the Kaggle competition 'Predicting Molecular Properties' (Link: https://www.kaggle.com/c/champs-scalar-coupling/overview) where the task is to predict the bond strength between atoms in molecules.
 
 The repo contains the following:
 
-* notebooks: main repository with the notebooks for feature creation and model fitting/testing
+* notebooks: main directory with the notebooks for feature creation and model fitting/testing
 * code: directory with additional code (e.g. to create the non-TDA features)
 * data: directory to store the data from Kaggle (download from here: https://www.kaggle.com/c/champs-scalar-coupling/data)
 * README.md
@@ -21,3 +21,7 @@ The idea to use topological data analysis for predictions on molecules is not ne
 
 * Persistent-Homology-based Machine Learning and its Applications – A Survey: https://arxiv.org/abs/1811.00252 (esp. section 5)
 * Representability of algebraic topology for biomolecules in machine learning based scoring and virtual screening: https://arxiv.org/pdf/1708.08135.pdf
+
+The following papers were used to get some inspiration for the feature creation:
+* The Ring of Algebraic Functions on Persistence Bar Codes: https://arxiv.org/pdf/1304.0530.pdf
+* A topological approach for protein classification: https://arxiv.org/pdf/1510.00953.pdf
