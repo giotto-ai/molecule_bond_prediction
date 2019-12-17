@@ -4,20 +4,20 @@ from sklearn.model_selection import KFold
 import numpy as np
 
 non_tda_columns = ['atom_index_0', 'atom_index_1', 'type', 'type_0', 'type_1', 'atom_0',
-       'x_0', 'y_0', 'z_0', 'atom_1', 'x_1', 'y_1', 'z_1', 'dist', 'dist_x',
-       'dist_y', 'dist_z', 'dist_to_type_mean', 'dist_to_type_0_mean',
-       'dist_to_type_1_mean', 'molecule_dist_mean_x', 'molecule_dist_std_x',
-       'molecule_dist_skew_x', 'molecule_dist_kurt_x', 'molecule_dist_mean_y',
-       'molecule_dist_std_y', 'molecule_dist_skew_y', 'molecule_dist_kurt_y',
-       'meanx', 'meany', 'meanz', 'dist_0tomean', 'dist_1tomean', 'meanxH',
-       'meanyH', 'meanzH', 'dist_0tomeanH', 'dist_1tomeanH', 'meanxC',
-       'meanyC', 'meanzC', 'dist_0tomeanC', 'dist_1tomeanC', 'meanxN',
-       'meanyN', 'meanzN', 'dist_0tomeanN', 'dist_1tomeanN', 'meanxO',
-       'meanyO', 'meanzO', 'dist_0tomeanO', 'dist_1tomeanO', 'meanxF',
-       'meanyF', 'meanzF', 'dist_0tomeanF', 'dist_1tomeanF', 'atom_count',
-       'atom_0l', 'x_0l', 'y_0l', 'z_0l', 'atom_0r', 'x_0r', 'y_0r', 'z_0r',
-       'dist_0l', 'dist_0r', 'atom_1l', 'x_1l', 'y_1l', 'z_1l', 'atom_1r',
-       'x_1r', 'y_1r', 'z_1r', 'dist_1l', 'dist_1r']
+                   'x_0', 'y_0', 'z_0', 'atom_1', 'x_1', 'y_1', 'z_1', 'dist', 'dist_x',
+                   'dist_y', 'dist_z', 'dist_to_type_mean', 'dist_to_type_0_mean',
+                   'dist_to_type_1_mean', 'molecule_dist_mean_x', 'molecule_dist_std_x',
+                   'molecule_dist_skew_x', 'molecule_dist_kurt_x', 'molecule_dist_mean_y',
+                   'molecule_dist_std_y', 'molecule_dist_skew_y', 'molecule_dist_kurt_y',
+                   'meanx', 'meany', 'meanz', 'dist_0tomean', 'dist_1tomean', 'meanxH',
+                   'meanyH', 'meanzH', 'dist_0tomeanH', 'dist_1tomeanH', 'meanxC',
+                   'meanyC', 'meanzC', 'dist_0tomeanC', 'dist_1tomeanC', 'meanxN',
+                   'meanyN', 'meanzN', 'dist_0tomeanN', 'dist_1tomeanN', 'meanxO',
+                   'meanyO', 'meanzO', 'dist_0tomeanO', 'dist_1tomeanO', 'meanxF',
+                   'meanyF', 'meanzF', 'dist_0tomeanF', 'dist_1tomeanF', 'atom_count',
+                   'atom_0l', 'x_0l', 'y_0l', 'z_0l', 'atom_0r', 'x_0r', 'y_0r', 'z_0r',
+                   'dist_0l', 'dist_0r', 'atom_1l', 'x_1l', 'y_1l', 'z_1l', 'atom_1r',
+                   'x_1r', 'y_1r', 'z_1r', 'dist_1l', 'dist_1r']
 
 
 params = {'num_leaves': 128,

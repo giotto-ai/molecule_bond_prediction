@@ -16,7 +16,6 @@ from itertools import product
 import networkx as nx
 import pickle
 
-
 ################################################################################
 
 def map_atom_info(df, atom_idx, structures):
@@ -99,6 +98,10 @@ def calculate_amplitude_feature(X_scaled, metric='wasserstein', order=2):
     return amplitude.fit_transform(X_scaled)
 
 
+# Scientific papers these features are based on:
+# - The Ring of Algebraic Functions on Persistence Bar Codes (2013, Carlsson et al.)
+# - A topological approach for protein classification (2015, Cang et al.)
+
 def length_Betti(persistence_diagram, n=2, homology_dim=0):
     # The length of the nth longest Betti bar with a given dimension.
     return np.partition(np.diff(persistence_diagram[:, :2][persistence_diagram[:, -1]==homology_dim]).flatten(), -1*n)[-1*n]
@@ -131,7 +134,7 @@ def average_middle_point(persistence_diagram, cutoff, homology_dim=1):
 
 
 def polynomial_feature_1(persistence_diagram, homology_dim):
-    #
+    # Polynomial of barcode features
     if homology_dim in persistence_diagram[:, -1]:
         N = persistence_diagram[persistence_diagram[:, -1]==homology_dim].shape[0]
         return (persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 0]
@@ -143,7 +146,7 @@ def polynomial_feature_1(persistence_diagram, homology_dim):
 
 
 def polynomial_feature_2(persistence_diagram, homology_dim):
-    #
+    # Polynomial of barcode features
     if homology_dim in persistence_diagram[:, -1]:
         N = persistence_diagram[persistence_diagram[:, -1]==homology_dim].shape[0]
         return ((persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1].max() - persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1])
@@ -154,7 +157,7 @@ def polynomial_feature_2(persistence_diagram, homology_dim):
 
 
 def polynomial_feature_3(persistence_diagram, homology_dim):
-    #
+    # Polynomial of barcode features
     if homology_dim in persistence_diagram[:, -1]:
         N = persistence_diagram[persistence_diagram[:, -1]==homology_dim].shape[0]
         return (persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 0]**2
@@ -166,7 +169,7 @@ def polynomial_feature_3(persistence_diagram, homology_dim):
 
 
 def polynomial_feature_4(persistence_diagram, homology_dim):
-    #
+    # Polynomial of barcode features
     if homology_dim in persistence_diagram[:, -1]:
         N = persistence_diagram[persistence_diagram[:, -1]==homology_dim].shape[0]
         return ((persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1].max() - persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1])**2
@@ -180,7 +183,6 @@ def graph_from_molecule(molecule, source='atom_index_0', target='atom_index_1'):
     """
     INPUT:
         molecule: DataFrame of molecule as a subset of rows of train/test data (incl x,y,z coords etc.)
-
     OUTPUT:
         graph: networkx object, where edges are given by bonds in molecule
     """
@@ -226,11 +228,11 @@ def computing_distance_matrix(graph):
 def computing_persistence_diagram(G, t=np.inf, homologyDimensions = (0, 1, 2)):
     """
     INPUT:
-        G - a graph
-        t - persistence threshold
-        homologyDimensions - homology dimensions to consider
+        G: a graph
+        t: persistence threshold
+        homologyDimensions: homology dimensions to consider
     OUTPUT:
-        pd - persistence diagram calculated by Giotto
+        pd: persistence diagram calculated by Giotto
     """
     start = time.time()
     dist_mat = computing_distance_matrix(G)
@@ -275,18 +277,15 @@ def get_pd_from_molecule(molecule_name, structures):
 def binned_features(X, homology_dim):
     """Compute binned features from the persistence diagram.
 
-    Parameters
-    ----------
+    INPUT:
     X : ndarray, shape (n_samples, n_features, 3)
         Input data. Array of persistence diagrams, each a collection of
         triples [b, d, q] representing persistent topological features
         through their birth (b), death (d) and homology dimension (q).
-
     homology_dim : int
         Homology dimension to consider, must be contained in the persistence diagram
 
-    Returns
-    -------
+    OUTPUT:
     (count_birth, count_death, count_persistence) : tuple, shape (3),
         count_birth: ndarray, shape (n_samples, n_bins)
         count_death: ndarray, shape (n_samples, n_bins)
@@ -328,14 +327,8 @@ def binned_features(X, homology_dim):
 def area_under_Betti_curve(X_betti_curves, homology_dim):
     """Compute the area under the Betti curve for a given Betti curve
 
-    Parameters
-    ----------
+    INPUT:
     X_betti_curves : ndarray, shape (n_samples, n_homology_dimensions, n_values)
-            Betti curves: one curve (represented as a one-dimensional array
-            of integer values) per sample and per homology dimension seen
-            in :meth:`fit`. Index i along axis 1 corresponds to the i-th
-            homology dimension in :attr:`homology_dimensions_`.
-
     homology_dim : int
         Homology dimension to consider, must be contained in the persistence diagram
 
