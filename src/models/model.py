@@ -48,7 +48,7 @@ def cv_model(X, y, features, n_fold=5, random_state=45245, params=params):
         model.fit(X_train, y_train)
         y_pred = model.predict(X_valid)
         results.append(group_mean_log_mae(y_pred, y_valid, X_valid['type']))
-        print(group_mean_log_mae(y_pred, y_valid, X_valid['type']))
+        #print(group_mean_log_mae(y_pred, y_valid, X_valid['type']).values())
 
     print('After {}-fold CV: Mean: '.format(n_fold), np.mean(results), 'Std.:', np.std(results))
 
