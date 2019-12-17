@@ -35,12 +35,12 @@ params = {'num_leaves': 128,
           'colsample_bytree': 1.0}
 
 
-def cv_model(X, y, features, n_fold=5, random_state=43, params=params):
+def cv_model(X, y, features, n_fold=5, random_state=45245, params=params):
     X = X[features]
 
     folds = KFold(n_splits=n_fold, shuffle=True, random_state=random_state)
     model = XGBRegressor(**params)
-    results =[]
+    results = []
 
     for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
         X_train, X_valid = X.iloc[train_index], X.iloc[valid_index]
@@ -48,6 +48,7 @@ def cv_model(X, y, features, n_fold=5, random_state=43, params=params):
         model.fit(X_train, y_train)
         y_pred = model.predict(X_valid)
         results.append(group_mean_log_mae(y_pred, y_valid, X_valid['type']))
+        print(group_mean_log_mae(y_pred, y_valid, X_valid['type']))
 
     print('After {}-fold CV: Mean: '.format(n_fold), np.mean(results), 'Std.:', np.std(results))
 
@@ -59,6 +60,7 @@ def group_mean_log_mae(y_true, y_pred, types, floor=1e-9):
     Code is from this kernel: https://www.kaggle.com/uberkinder/efficient-metric
     """
     maes = (y_true-y_pred).abs().groupby(types).mean()
+    print(maes)
     return np.log(maes.map(lambda x: max(x, floor))).mean()
 
 
