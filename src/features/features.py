@@ -106,7 +106,7 @@ def length_Betti(persistence_diagram, n=2, homology_dim=0):
 
 def sum_length(persistence_diagram, homology_dim=0):
     # The summation of lengths of all Betti bars with a given dimension
-    return np.diff(persistence_diagram[0][0][:,:2][persistence_diagram[0][0][:, -1] == 0]).sum()
+    return np.diff(persistence_diagram[:,:2][persistence_diagram[:, -1] == 0]).sum()
 
 
 def average_length(persistence_diagram, homology_dim=0):
@@ -133,10 +133,10 @@ def average_middle_point(persistence_diagram, cutoff, homology_dim=1):
 def polynomial_feature_1(persistence_diagram, homology_dim):
     #
     if homology_dim in persistence_diagram[:, -1]:
-        N = test_pd[test_pd[:, -1]==homology_dim].shape[0]
-        return (test_pd[test_pd[:, -1]==homology_dim][:, 0]
-                * (test_pd[test_pd[:, -1]==homology_dim][:, 1]
-                - test_pd[test_pd[:, -1]==homology_dim][:, 0])).sum()/N
+        N = persistence_diagram[persistence_diagram[:, -1]==homology_dim].shape[0]
+        return (persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 0]
+                * (persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1]
+                - persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 0])).sum()/N
     else:
         print('No elements with dimension ', homology_dim)
         return np.inf
@@ -145,9 +145,9 @@ def polynomial_feature_1(persistence_diagram, homology_dim):
 def polynomial_feature_2(persistence_diagram, homology_dim):
     #
     if homology_dim in persistence_diagram[:, -1]:
-        N = test_pd[test_pd[:, -1]==homology_dim].shape[0]
-        return ((test_pd[test_pd[:, -1]==homology_dim][:, 1].max() - test_pd[test_pd[:, -1]==homology_dim][:, 1])
-                * (test_pd[test_pd[:, -1]==homology_dim][:, 1] - test_pd[test_pd[:, -1]==homology_dim][:, 0])).sum()/N
+        N = persistence_diagram[persistence_diagram[:, -1]==homology_dim].shape[0]
+        return ((persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1].max() - persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1])
+                * (persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1] - persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 0])).sum()/N
     else:
         print('No elements with dimension ', homology_dim)
         return np.inf
@@ -156,10 +156,10 @@ def polynomial_feature_2(persistence_diagram, homology_dim):
 def polynomial_feature_3(persistence_diagram, homology_dim):
     #
     if homology_dim in persistence_diagram[:, -1]:
-        N = test_pd[test_pd[:, -1]==homology_dim].shape[0]
-        return (test_pd[test_pd[:, -1]==homology_dim][:, 0]**2
-                * (test_pd[test_pd[:, -1]==homology_dim][:, 1]
-                - test_pd[test_pd[:, -1]==homology_dim][:, 0])**4).sum()/N
+        N = persistence_diagram[persistence_diagram[:, -1]==homology_dim].shape[0]
+        return (persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 0]**2
+                * (persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1]
+                - persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 0])**4).sum()/N
     else:
         print('No elements with dimension ', homology_dim)
         return np.inf
@@ -168,9 +168,9 @@ def polynomial_feature_3(persistence_diagram, homology_dim):
 def polynomial_feature_4(persistence_diagram, homology_dim):
     #
     if homology_dim in persistence_diagram[:, -1]:
-        N = test_pd[test_pd[:, -1]==homology_dim].shape[0]
-        return ((test_pd[test_pd[:, -1]==homology_dim][:, 1].max() - test_pd[test_pd[:, -1]==homology_dim][:, 1])**2
-                * (test_pd[test_pd[:, -1]==homology_dim][:, 1] - test_pd[test_pd[:, -1]==homology_dim][:, 0])**4).sum()/N
+        N = persistence_diagram[persistence_diagram[:, -1]==homology_dim].shape[0]
+        return ((persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1].max() - persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1])**2
+                * (persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 1] - persistence_diagram[persistence_diagram[:, -1]==homology_dim][:, 0])**4).sum()/N
     else:
         print('No elements with dimension ', homology_dim)
         return np.inf
@@ -220,7 +220,6 @@ def computing_distance_matrix(graph):
     dist_mat[row, column] = dist_list
     dist_mat[column, row] = dist_list
     dist_mat[range(len(dist_mat)), range(len(dist_mat))] = 0.
-    print(dist_mat)
     return dist_mat
 
 
@@ -518,6 +517,16 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
     avg_lifetime_1 = []
     avg_lifetime_2 = []
     amplitude = []
+    length_Betti_0 = []
+    sum_length_0 = []
+    average_length_0 = []
+    onset_longest_Betti_0 = []
+    smallest_onset_1 = []
+    average_middle_point_1 = []
+    polynomial_feature_1_0 = []
+    polynomial_feature_2_0 = []
+    polynomial_feature_3_0 = []
+    polynomial_feature_4_0 = []
 
     for m in range(len(molecule_selection)):
         num_rel_holes_0.append(num_relevant_holes(persistence_diagrams[m], homology_dim=0))
@@ -530,6 +539,16 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
         avg_lifetime_1.append(average_lifetime(persistence_diagrams[m], homology_dim=1))
         avg_lifetime_2.append(average_lifetime(persistence_diagrams[m], homology_dim=2))
         amplitude.append(calculate_amplitude_feature(persistence_diagrams[m]))
+        length_Betti_0.append(length_Betti(persistence_diagrams[m][0]))
+        sum_length_0.append(sum_length(persistence_diagrams[m][0]))
+        average_length_0.append(average_length(persistence_diagrams[m][0]))
+        onset_longest_Betti_0.append(onset_longest_Betti(persistence_diagrams[m][0]))
+        smallest_onset_1.append(smallest_onset(persistence_diagrams[m][0]))
+        average_middle_point_1.append(average_middle_point(persistence_diagrams[m][0], cutoff=0.5))
+        polynomial_feature_1_0.append(polynomial_feature_1(persistence_diagrams[m][0], homology_dim=0))
+        polynomial_feature_2_0.append(polynomial_feature_2(persistence_diagrams[m][0], homology_dim=0))
+        polynomial_feature_3_0.append(polynomial_feature_3(persistence_diagrams[m][0], homology_dim=0))
+        polynomial_feature_4_0.append(polynomial_feature_4(persistence_diagrams[m][0], homology_dim=0))
 
     num_rel_holes_0 = np.array(num_rel_holes_0).flatten()
     num_rel_holes_1 = np.array(num_rel_holes_1).flatten()
@@ -541,6 +560,17 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
     avg_lifetime_1 = np.array(avg_lifetime_1).flatten()
     avg_lifetime_2 = np.array(avg_lifetime_2).flatten()
     amplitude = np.array(amplitude).flatten()
+    length_Betti_0 = np.array(length_Betti_0).flatten()
+    sum_length_0 = np.array(sum_length_0).flatten()
+    average_length_0 = np.array(average_length_0).flatten()
+    onset_longest_Betti_0 = np.array(onset_longest_Betti_0).flatten()
+    smallest_onset_1 = np.array(smallest_onset_1).flatten()
+    average_middle_point_1 = np.array(average_middle_point_1).flatten()
+    polynomial_feature_1_0 = np.array(polynomial_feature_1_0).flatten()
+    polynomial_feature_2_0 = np.array(polynomial_feature_2_0).flatten()
+    polynomial_feature_3_0 = np.array(polynomial_feature_3_0).flatten()
+    polynomial_feature_4_0 = np.array(polynomial_feature_4_0).flatten()
+
 
     # Make dictionaries
     num_rel_holes_0_dict = dict(zip(molecule_selection, num_rel_holes_0))
@@ -553,6 +583,16 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
     avg_lifetime_1_dict = dict(zip(molecule_selection, avg_lifetime_1))
     avg_lifetime_2_dict = dict(zip(molecule_selection, avg_lifetime_2))
     amplitude_dict = dict(zip(molecule_selection, amplitude))
+    length_Betti_0_dict = dict(zip(molecule_selection, length_Betti_0))
+    sum_length_0_dict = dict(zip(molecule_selection, sum_length_0))
+    average_length_0_dict = dict(zip(molecule_selection, average_length_0))
+    onset_longest_Betti_0_dict = dict(zip(molecule_selection, onset_longest_Betti_0))
+    smallest_onset_1_dict = dict(zip(molecule_selection, smallest_onset_1))
+    average_middle_point_1_dict = dict(zip(molecule_selection, average_middle_point_1))
+    polynomial_feature_1_0_dict = dict(zip(molecule_selection, polynomial_feature_1_0))
+    polynomial_feature_2_0_dict = dict(zip(molecule_selection, polynomial_feature_2_0))
+    polynomial_feature_3_0_dict = dict(zip(molecule_selection, polynomial_feature_3_0))
+    polynomial_feature_4_0_dict = dict(zip(molecule_selection, polynomial_feature_4_0))
 
     all_features = {'num_rel_holes_0': num_rel_holes_0_dict,
                     'num_rel_holes_1': num_rel_holes_1_dict,
@@ -563,7 +603,17 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
                     'avg_lifetime_0': avg_lifetime_0_dict,
                     'avg_lifetime_1': avg_lifetime_1_dict,
                     'avg_lifetime_2': avg_lifetime_2_dict,
-                    'amplitude': amplitude_dict}
+                    'amplitude': amplitude_dict,
+                    'length_Betti_0': length_Betti_0_dict,
+                    'sum_length_0': sum_length_0_dict,
+                    'average_length_0': average_length_0_dict,
+                    'onset_longest_Betti_0': onset_longest_Betti_0_dict,
+                    'smallest_onset_1':  smallest_onset_1_dict,
+                    'average_middle_point_1': average_middle_point_1_dict,
+                    'polynomial_feature_1_0': polynomial_feature_1_0_dict,
+                    'polynomial_feature_2_0': polynomial_feature_2_0_dict,
+                    'polynomial_feature_3_0': polynomial_feature_3_0_dict,
+                    'polynomial_feature_4_0': polynomial_feature_4_0_dict}
 
     if save_file==True:
         with open('tda_features', 'wb') as f:

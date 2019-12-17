@@ -111,7 +111,8 @@ def plot_point_cloud(point_cloud, dimension=None):
                                                  colorscale='Viridis',
                                                  opacity=0.8)))
 
-        fig.show()
+        #fig.show()
+        return fig
     else:
         raise ValueError("The value of the dimension is different from 2 or 3")
 
