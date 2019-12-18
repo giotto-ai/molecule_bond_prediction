@@ -7,8 +7,11 @@ import plotly.graph_objs as gobj
 
 def create_summary_df(results_mean):
     """
+    INPUT:
+        results_mean: numpy array with scores in order given by index
+                      and mean of these scores.
     OUTPUT:
-        df: pandas dataframe with columns: 'baseline', 'top model' and 'ticktext'
+        df: pandas dataframe with columns: 0 up to #columns-1 in input and 'ticktext'
     """
     index = ['3JHH', '3JHC', '2JHC', '2JHH', '1JHC', 'mean']
 
@@ -20,7 +23,8 @@ def create_summary_df(results_mean):
 def plot_results(df, save=False, filename='results.png'):
     """
     INPUT:
-        df: pandas dataframe. Created with 'create_summary_df' function (need columns: 'baseline', 'top model', 'ticktext')
+        df: pandas dataframe. Created with 'create_summary_df' function
+            (need columns: 'baseline', 'top model', 'ticktext')
         save: boolean. If True, the plot will be saved as a png file.
         filename: str. Default is 'results.png'
     OUTPUT:

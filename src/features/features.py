@@ -236,9 +236,7 @@ def computing_persistence_diagram(G, t=np.inf, homologyDimensions = (0, 1, 2)):
     """
     start = time.time()
     dist_mat = computing_distance_matrix(G)
-    #dist_mat = np.array(nx.floyd_warshall_numpy(G))
     end = time.time()
-    #print('Computing distance matrix time:', end - start)
 
     start = time.time()
     persistenceDiagram = VietorisRipsPersistence(metric='precomputed', max_edge_length=t,
@@ -246,7 +244,6 @@ def computing_persistence_diagram(G, t=np.inf, homologyDimensions = (0, 1, 2)):
                                                  n_jobs=-1)
     Diagrams = persistenceDiagram.fit_transform(dist_mat.reshape(1, dist_mat.shape[0], dist_mat.shape[1]))
     end = time.time()
-    #print('Computing TDA:', end - start)
     return Diagrams
 
 
@@ -273,7 +270,7 @@ def get_pd_from_molecule(molecule_name, structures):
 
     return X_scaled
 
-# Binned features
+
 def binned_features(X, homology_dim):
     """Compute binned features from the persistence diagram.
 
