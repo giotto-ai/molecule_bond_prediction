@@ -36,6 +36,18 @@ params = {'num_leaves': 128,
 
 
 def cv_model(X, y, features, n_fold=5, random_state=45245, params=params):
+    """
+    INPUT:
+        X: pandas DataFrame with features
+        y: pandas DataFrame (or Series object) with coupling constants as target values
+        features: list of features to use
+        n_fold: number of folds (int)
+        random_state: for the KFold split
+        params: parameter dictionary for XGBRegressor
+    OUTPUT:
+        results_mean: list of the scores for each type averaged over all folds
+        results_details: list of all the scores as a list of lists
+    """
     X = X[features]
 
     folds = KFold(n_splits=n_fold, shuffle=True, random_state=random_state)
