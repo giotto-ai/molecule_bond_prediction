@@ -48,6 +48,7 @@ def cv_model(X, y, features, n_fold=5, random_state=45245, params=params):
         results_mean: list of the scores for each type averaged over all folds
         results_details: list of all the scores as a list of lists
     """
+    
     X = X[features]
 
     folds = KFold(n_splits=n_fold, shuffle=True, random_state=random_state)

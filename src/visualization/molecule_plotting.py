@@ -14,6 +14,7 @@ def plot_molecule(molecule_name, structures_df):
     OUTPUT:
         fig: 3D plotly figure to visualize the chosen molecule
     """
+    
     radius = dict(C=0.77, F=0.71, H=0.38, N=0.75, O=0.73)
     element_colors = dict(C='black', F='green', H='white', N='blue', O='red')
     molecule_df = structures_df[structures_df['molecule_name'] == molecule_name]

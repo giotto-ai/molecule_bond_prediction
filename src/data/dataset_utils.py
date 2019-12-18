@@ -3,6 +3,14 @@ import fire
 
 
 def get_selected_structures(molecule_selection):
+    """
+    INPUT:
+        molecule_selection: list of molecule names
+    OUTPUT:
+        selected_structures: part of structures DataFrame with only the selected
+                             molecules
+    """
+    
     file_folder = '../data/raw'
     structures = pd.read_csv(f'{file_folder}/structures.csv')
 
