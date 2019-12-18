@@ -7,6 +7,13 @@ from sympy.geometry import Point3D
 
 
 def plot_molecule(molecule_name, structures_df):
+    """
+    INPUT:
+        molecule_name: name of the molecule from the structures DataFrame
+        structures_df: structures DataFrame
+    OUTPUT:
+        fig: 3D plotly figure to visualize the chosen molecule
+    """
     radius = dict(C=0.77, F=0.71, H=0.38, N=0.75, O=0.73)
     element_colors = dict(C='black', F='green', H='white', N='blue', O='red')
     molecule_df = structures_df[structures_df['molecule_name'] == molecule_name]
@@ -79,90 +86,5 @@ def plot_molecule(molecule_name, structures_df):
                     ])
 
     fig = go.Figure(data=data, layout=layout)
-
-    return fig
-
-
-def create_summary_df():
-    """
-    OUTPUT:
-        df: pandas dataframe with columns: 'baseline', 'top model' and 'ticktext'
-    """
-    index = ['3JHH', '3JHC', '2JHC', '2JHH', '1JHC', 'mean']
-    path =  ['1_1JHC_0', '2_2JHH', '5_2JHC', '6_3JHH', '7_3JHC']
-
-    # Collect data
-    top_mean = []
-    base_mean = []
-
-    for p in path:
-        top = []
-        base = []
-        top.append(pd.read_csv('../results/'+p+'/'+p+'_top.csv')['0'])
-        base.append(pd.read_csv('../results/'+p+'/'+p+'_base.csv')['0'])
-        base = [np.log(x) for x in base]
-        top = [np.log(x) for x in top]
-        top_mean.append(np.mean(top))
-        base_mean.append(np.mean(base))
-
-    top_mean.append(np.mean(top_mean))
-    base_mean.append(np.mean(base_mean))
-
-    df = pd.DataFrame(np.array([base_mean, top_mean]).T, columns=['baseline', 'top model'])
-    df.loc[:, 'ticktext'] = index
-    df.set_index('ticktext').reset_index(inplace=True, drop=True)
-    return df
-
-
-def plot_results(df, save=False, filename='results.png'):
-    """
-    INPUT:
-        df: pandas dataframe. Created with 'create_summary_df' function (need columns: 'baseline', 'top model', 'ticktext')
-        save: boolean. If True, the plot will be saved as a png file.
-        filename: str. Default is 'results.png'
-    OUTPUT:
-        fig: plotly object
-    """
-    fig = go.Figure()
-    fig.add_trace(
-        go.Scatter(
-            mode='markers',
-            name='Baseline',
-            x=df.index,
-            y=df['baseline'],
-            marker=dict(
-                size=10,
-            ),
-            showlegend=True
-        )
-    )
-
-    # Add trace with large markers
-    fig.add_trace(
-        go.Scatter(
-            mode='markers',
-            name='Top model',
-            x=df.index,
-            y=df['top model'],
-            marker=dict(
-                color='red',
-                size=10,
-            ),
-            showlegend=True
-        )
-    )
-
-    fig.update_layout(
-        xaxis = dict(
-            tickmode = 'array',
-            tickvals = df.index,
-            ticktext = df['ticktext']
-        ),
-        yaxis = dict(autorange = 'reversed')
-
-    )
-
-    if save==True:
-        fig.write_image(filename + ".png")
 
     return fig
