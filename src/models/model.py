@@ -48,7 +48,7 @@ def cv_model(X, y, features, n_fold=5, random_state=45245, params=params):
         results_mean: list of the scores for each type averaged over all folds
         results_details: list of all the scores as a list of lists
     """
-    
+
     X = X[features]
 
     folds = KFold(n_splits=n_fold, shuffle=True, random_state=random_state)
@@ -75,7 +75,15 @@ def group_mean_log_mae(y_true, y_pred, types, floor=1e-9):
     Fast metric computation for this competition:
         https://www.kaggle.com/c/champs-scalar-coupling
     Code is from this kernel: https://www.kaggle.com/uberkinder/efficient-metric
+    INPUT:
+        y_true: true value of coupling constant
+        y_pred: predicted value of coupling constant
+        types: bond types to consider
+        floor: default = 1e-9
+    OUTPUT:
+        score: as described in the first link above 
     """
+
     maes = (y_true-y_pred).abs().groupby(types).mean()
     return np.log(maes.map(lambda x: max(x, floor))).mean(), np.log(maes)
 

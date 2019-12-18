@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pickle
 
 import fire
 
@@ -11,10 +12,8 @@ from sklearn.preprocessing import LabelEncoder
 import giotto.diagrams as diag
 from giotto.homology import VietorisRipsPersistence
 
-import time
 from itertools import product
 import networkx as nx
-import pickle
 
 ################################################################################
 
@@ -234,16 +233,12 @@ def computing_persistence_diagram(G, t=np.inf, homologyDimensions = (0, 1, 2)):
     OUTPUT:
         pd: persistence diagram calculated by Giotto
     """
-    start = time.time()
-    dist_mat = computing_distance_matrix(G)
-    end = time.time()
 
-    start = time.time()
+    dist_mat = computing_distance_matrix(G)
     persistenceDiagram = VietorisRipsPersistence(metric='precomputed', max_edge_length=t,
                                                  homology_dimensions=homologyDimensions,
                                                  n_jobs=-1)
     Diagrams = persistenceDiagram.fit_transform(dist_mat.reshape(1, dist_mat.shape[0], dist_mat.shape[1]))
-    end = time.time()
     return Diagrams
 
 
