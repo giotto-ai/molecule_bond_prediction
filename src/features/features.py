@@ -512,6 +512,7 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
     polynomial_feature_2_0 = []
     polynomial_feature_3_0 = []
     polynomial_feature_4_0 = []
+    area_Betti_1 = []
 
     for m in range(len(molecule_selection)):
         num_rel_holes_0.append(num_relevant_holes(persistence_diagrams[m], homology_dim=0))
@@ -534,6 +535,10 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
         polynomial_feature_2_0.append(polynomial_feature_2(persistence_diagrams[m][0], homology_dim=0))
         polynomial_feature_3_0.append(polynomial_feature_3(persistence_diagrams[m][0], homology_dim=0))
         polynomial_feature_4_0.append(polynomial_feature_4(persistence_diagrams[m][0], homology_dim=0))
+        betti_curves = diag.BettiCurve()
+        betti_curves.fit(persistence_diagrams[m])
+        X_betti_curves = betti_curves.transform(persistence_diagrams[m])
+        area_Betti_1.append(area_under_Betti_curve(X_betti_curves, homology_dim=1))
 
     num_rel_holes_0 = np.array(num_rel_holes_0).flatten()
     num_rel_holes_1 = np.array(num_rel_holes_1).flatten()
@@ -555,6 +560,7 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
     polynomial_feature_2_0 = np.array(polynomial_feature_2_0).flatten()
     polynomial_feature_3_0 = np.array(polynomial_feature_3_0).flatten()
     polynomial_feature_4_0 = np.array(polynomial_feature_4_0).flatten()
+    area_Betti_1 = np.array(area_Betti_1).flatten()
 
 
     # Make dictionaries
@@ -578,6 +584,7 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
     polynomial_feature_2_0_dict = dict(zip(molecule_selection, polynomial_feature_2_0))
     polynomial_feature_3_0_dict = dict(zip(molecule_selection, polynomial_feature_3_0))
     polynomial_feature_4_0_dict = dict(zip(molecule_selection, polynomial_feature_4_0))
+    area_Betti_1_dict = dict(zip(molecule_selection, area_Betti_1))
 
     all_features = {'num_rel_holes_0': num_rel_holes_0_dict,
                     'num_rel_holes_1': num_rel_holes_1_dict,
@@ -598,7 +605,8 @@ def create_and_save_features(persistence_diagrams, molecule_selection, save_file
                     'polynomial_feature_1_0': polynomial_feature_1_0_dict,
                     'polynomial_feature_2_0': polynomial_feature_2_0_dict,
                     'polynomial_feature_3_0': polynomial_feature_3_0_dict,
-                    'polynomial_feature_4_0': polynomial_feature_4_0_dict}
+                    'polynomial_feature_4_0': polynomial_feature_4_0_dict,
+                    'area_Betti_1': area_Betti_1_dict}
 
     if save_file==True:
         with open('tda_features', 'wb') as f:

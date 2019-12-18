@@ -112,5 +112,6 @@ venv.bak/
 data/*
 !data/.gitkeep
 !data/generated_features/.gitkeep
+figures/*
 
 .DS_Store
