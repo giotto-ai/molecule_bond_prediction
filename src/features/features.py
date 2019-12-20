@@ -7,7 +7,6 @@ import fire
 from scipy.stats import skew, kurtosis
 from numpy.random import permutation
 from sklearn import metrics
-import lightgbm
 from sklearn.preprocessing import LabelEncoder
 import giotto.diagrams as diag
 from giotto.homology import VietorisRipsPersistence
