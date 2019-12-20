@@ -1,4 +1,4 @@
-# Description of this repository
+## Description of this repository
 The goal of this repo is to demonstrate how topological data analysis can be applied to problems in chemistry and materials science.
 This demo is based on the Kaggle competition 'Predicting Molecular Properties' (Link: https://www.kaggle.com/c/champs-scalar-coupling/overview) where the task is to predict the bond strength between atoms in molecules.
 
@@ -10,13 +10,13 @@ The repo contains the following:
 * README.md
 
 
-# External code
+## External code
 The following Kaggle notebooks were used for this project:
 
 * For non-TDA features: https://www.kaggle.com/robertburbidge/distance-features <br>
 * For plotting molecules (but adapted): https://www.kaggle.com/mykolazotko/3d-visualization-of-molecules-with-plotly
 
-# Some related publications
+## Some related publications
 The idea to use topological data analysis for predictions on molecules is not new. Below you can find some interesting papers related to this:
 
 * Persistent-Homology-based Machine Learning and its Applications – A Survey: https://arxiv.org/abs/1811.00252 (esp. section 5)

@@ -20,13 +20,11 @@ def create_summary_df(results_mean):
     return df
 
 
-def plot_results(df, save=False, filename='results.png'):
+def plot_results(df):
     """
     INPUT:
         df: pandas dataframe. Created with 'create_summary_df' function
             (need columns: 'baseline', 'top model', 'ticktext')
-        save: boolean. If True, the plot will be saved as a png file.
-        filename: str. Default is 'results.png'
     OUTPUT:
         fig: plotly object
     """
@@ -49,16 +47,14 @@ def plot_results(df, save=False, filename='results.png'):
         )
 
     fig.update_layout(
+        yaxis_title="score",
         xaxis = dict(
             tickmode = 'array',
             tickvals = df.index,
-            ticktext = df['ticktext']
+            ticktext = df['ticktext'],
         ),
         yaxis = dict(autorange = 'reversed')
 
     )
-
-    if save==True:
-        fig.write_image(filename + ".png")
 
     return fig
