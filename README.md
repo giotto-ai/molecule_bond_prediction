@@ -9,6 +9,9 @@ The repo contains the following:
 * data: directory to store the data from Kaggle (download from here: https://www.kaggle.com/c/champs-scalar-coupling/data)
 * README.md
 
+## Results
+
+![](data/figures/image.png)
 
 ## External code
 The following Kaggle notebooks were used for this project:
