@@ -112,6 +112,7 @@ venv.bak/
 data/*
 !data/.gitkeep
 !data/generated_features/.gitkeep
+!data/figures/result.png
 figures/*
 
 .DS_Store
