@@ -10,7 +10,13 @@ The repo contains the following:
 * README.md
 
 ## Results
+The scoring function is described on Kaggle and calculated as follows:
+<div align="center">
+<p><img src="data/figures/score.png?raw=true" width="200" /></p>
+</div>
 
+
+The figure below summarizes the results and gives a comparison of the results with and without TDA.
 <div align="center">
 <p><img src="data/figures/result.png?raw=true" width="1200" /></p>
 </div>
