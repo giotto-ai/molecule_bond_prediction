@@ -12,7 +12,7 @@ The repo contains the following:
 ## Results
 
 <div align="center">
-<p><img src="data/figures/result.png?raw=true" width="600" /></p>
+<p><img src="data/figures/result.png?raw=true" width="1200" /></p>
 </div>
 
 
