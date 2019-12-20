@@ -25,3 +25,6 @@ The idea to use topological data analysis for predictions on molecules is not ne
 The following papers were used to get some inspiration for the feature creation:
 * The Ring of Algebraic Functions on Persistence Bar Codes: https://arxiv.org/pdf/1304.0530.pdf
 * A topological approach for protein classification: https://arxiv.org/pdf/1510.00953.pdf
+
+And to get an introduction to topological data analysis:
+* An introduction to Topological Data Analysis: fundamental and practical aspects for data scientists: https://arxiv.org/pdf/1710.04019.pdf
