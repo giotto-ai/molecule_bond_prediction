@@ -11,7 +11,10 @@ The repo contains the following:
 
 ## Results
 
-![](data/figures/image.png)
+<div align="center">
+<p><img src="data/figures/result.png?raw=true" width="600" /></p>
+</div>
+
 
 ## External code
 The following Kaggle notebooks were used for this project:
