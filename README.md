@@ -12,7 +12,7 @@ The repo contains the following:
 ## Results
 The scoring function is described on Kaggle and calculated as follows:
 <div align="center">
-<p><img src="data/figures/score.png?raw=true" width="200" /></p>
+<p><img src="data/figures/score.png?raw=true" width="450" /></p>
 </div>
 
 
