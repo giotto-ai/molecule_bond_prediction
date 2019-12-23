@@ -1,4 +1,4 @@
-## Description of this repository
+## Goal and Description of this repository
 The goal of this repository is to demonstrate the core funcitionalities of giotto-learn, an open-source topological data analysis library. 
 
 This demo is based on the Kaggle competition 'Predicting Molecular Properties' (Link: https://www.kaggle.com/c/champs-scalar-coupling/overview) where the task is to predict the bond strength between atoms in molecules.
@@ -35,12 +35,12 @@ The following Kaggle notebooks were used for this project:
 * For non-TDA features: https://www.kaggle.com/robertburbidge/distance-features <br>
 * For plotting molecules (but adapted): https://www.kaggle.com/mykolazotko/3d-visualization-of-molecules-with-plotly
 
-## How to get started
+## How to get started
 The easiest way to get started is to create an environment like this:
-'''
+```
 conda create python=3.7 --name molecule
 pip install -r requirements.txt
-'''
+```
 
 ## Some related publications
 To get an introduction to topological data analysis:
