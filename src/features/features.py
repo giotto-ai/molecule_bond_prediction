@@ -477,6 +477,82 @@ def get_bonds(molecule_name, structures):
     return [list(x) for x in list(bonds)]
 
 
+def attach_tda_features(X, features_dictionary, molecules, suffix='_cloud'):
+    """
+    Attaches the features from features_dictionary to the DataFrame X:
+    INPUT:
+        X: pandas DataFrame
+        features_dictionary: dictionary
+        molecules: list of molecule names
+        suffix: string to append to features to distinguish features from graph and point cloud
+    """
+    num_rel_holes_0_graph = [features_dictionary['num_rel_holes_0'][m] for m in molecules]
+    num_rel_holes_1_graph = [features_dictionary['num_rel_holes_1'][m] for m in molecules]
+    num_rel_holes_2_graph = [features_dictionary['num_rel_holes_2'][m] for m in molecules]
+    num_holes_0_graph = [features_dictionary['num_holes_0'][m] for m in molecules]
+    num_holes_1_graph = [features_dictionary['num_holes_1'][m] for m in molecules]
+    num_holes_2_graph = [features_dictionary['num_holes_2'][m] for m in molecules]
+    avg_lifetime_0_graph = [features_dictionary['avg_lifetime_0'][m] for m in molecules]
+    avg_lifetime_1_graph = [features_dictionary['avg_lifetime_1'][m] for m in molecules]
+    avg_lifetime_2_graph = [features_dictionary['avg_lifetime_2'][m] for m in molecules]
+    amplitude_graph = [features_dictionary['amplitude'][m] for m in molecules]
+    length_Betti_0_graph = [features_dictionary['length_Betti_0'][m] for m in molecules]
+    sum_length_0_graph = [features_dictionary['sum_length_0'][m] for m in molecules]
+    onset_longest_Betti_0_graph = [features_dictionary['onset_longest_Betti_0'][m] for m in molecules]
+    smallest_onset_1_graph = [features_dictionary['smallest_onset_1'][m] for m in molecules]
+    average_middle_point_1_graph = [features_dictionary['average_middle_point_1'][m] for m in molecules]
+    polynomial_feature_1_0_graph = [features_dictionary['polynomial_feature_1_0'][m] for m in molecules]
+    polynomial_feature_2_0_graph = [features_dictionary['polynomial_feature_2_0'][m] for m in molecules]
+    polynomial_feature_3_0_graph = [features_dictionary['polynomial_feature_3_0'][m] for m in molecules]
+    polynomial_feature_4_0_graph = [features_dictionary['polynomial_feature_4_0'][m] for m in molecules]
+    area_Betti_1_graph = [features_dictionary['area_Betti_1'][m] for m in molecules]
+
+    X.loc[:, 'num_rel_holes_0'+suffix] = num_rel_holes_0_graph
+    X.loc[:, 'num_rel_holes_1'+suffix] = num_rel_holes_1_graph
+    X.loc[:, 'num_rel_holes_2'+suffix] = num_rel_holes_2_graph
+    X.loc[:, 'num_holes_0'+suffix] = num_holes_0_graph
+    X.loc[:, 'num_holes_1'+suffix] = num_holes_1_graph
+    X.loc[:, 'num_holes_2'+suffix] = num_holes_2_graph
+    X.loc[:, 'avg_lifetime_0'+suffix] = avg_lifetime_0_graph
+    X.loc[:, 'avg_lifetime_1'+suffix] = avg_lifetime_1_graph
+    X.loc[:, 'avg_lifetime_2'+suffix] = avg_lifetime_2_graph
+    X.loc[:, 'amplitude'+suffix] = amplitude_graph
+    X.loc[:, 'length_Betti_0'+suffix] = length_Betti_0_graph
+    X.loc[:, 'sum_length_0'+suffix] = sum_length_0_graph
+    X.loc[:, 'onset_longest_Betti_0'+suffix] = onset_longest_Betti_0_graph
+    X.loc[:, 'smallest_onset_1'+suffix] = smallest_onset_1_graph
+    X.loc[:, 'polynomial_feature_1_0'+suffix] = polynomial_feature_1_0_graph
+    X.loc[:, 'polynomial_feature_2_0'+suffix] = polynomial_feature_2_0_graph
+    X.loc[:, 'polynomial_feature_3_0'+suffix] = polynomial_feature_3_0_graph
+    X.loc[:, 'polynomial_feature_4_0'+suffix] = polynomial_feature_4_0_graph
+    X.loc[:, 'area_Betti_1'+suffix] = area_Betti_1_graph
+
+    return X
+
+
+def get_graph_persistence_diagrams(molecule_selection, structures, recalculate_graph_pd=False):
+    """
+    molecule_selection: DataFrame with chosen molecules only
+    structures: DataFrame with
+    recalculate_graph_pd: whether to recalculate the features or load them from file (bool)
+    """
+    if recalculate_graph_pd == True:
+        pers_diag_list_graph = []
+        for mat in molecule_selection:
+            bonds = get_bonds(mat, structures)
+            edges = pd.DataFrame(bonds, columns=['source', 'target'])
+            graph = nx.from_pandas_edgelist(edges, source='source', target='target')
+            pers_diag_list_graph.append(computing_persistence_diagram(graph))
+
+        with open('../data/processed/graph_pd_list.pickle', 'wb') as f:
+            pickle.dump(pers_diag_list_graph, f)
+    else:
+        with open('../data/processed/graph_pd_list.pickle', 'rb') as f:
+            pers_diag_list_graph = pickle.load(f)
+
+    return pers_diag_list_graph
+
+
 def create_and_save_features(persistence_diagrams, molecule_selection, save_file=False, filename='all_features'):
     """
     Function to create TDA features given a list of persistence diagrams.
