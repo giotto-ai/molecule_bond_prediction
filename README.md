@@ -16,9 +16,9 @@ The scoring function is described on Kaggle and calculated as follows:
 </div>
 
 where:
-* T is the number of coupling types
-* n_t is the number of observations of type t
-* y_i is the actual coupling value for this sample
+* ![T](https://render.githubusercontent.com/render/math?math=T) is the number of coupling types
+* ![n_t](https://render.githubusercontent.com/render/math?math=n_t) is the number of observations of type t
+* ![y_i](https://render.githubusercontent.com/render/math?math=y_i) is the actual coupling value for this sample
 * ![](https://render.githubusercontent.com/render/math?math=%5Chat%7By_i%7D) is the predicted coupling value for this sample
 
 
