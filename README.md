@@ -24,7 +24,7 @@ where:
 
 The figure below summarizes the results and gives a comparison of the results with and without TDA.
 <div align="center">
-<p><img src="data/figures/result.png?raw=true" width="1200" /></p>
+<p><img src="data/figures/results.png?raw=true" width="1200" /></p>
 </div>
 
 
