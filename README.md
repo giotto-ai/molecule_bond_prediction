@@ -1,5 +1,5 @@
 ## Description of this repository
-The goal of this repo is to demonstrate how topological data analysis can be applied to problems in chemistry and materials science.
+The goal of this repository is to demonstrate how topological data analysis can be applied to problems in chemistry and materials science.
 This demo is based on the Kaggle competition 'Predicting Molecular Properties' (Link: https://www.kaggle.com/c/champs-scalar-coupling/overview) where the task is to predict the bond strength between atoms in molecules.
 
 The repo contains the following:
