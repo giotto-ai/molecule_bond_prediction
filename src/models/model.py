@@ -44,6 +44,7 @@ def cv_model(X, y, features, n_fold=5, random_state=45245, params=params):
         n_fold: number of folds (int)
         random_state: for the KFold split
         params: parameter dictionary for XGBRegressor
+
     OUTPUT:
         results_mean: list of the scores for each type averaged over all folds
         results_details: list of all the scores as a list of lists
@@ -55,7 +56,6 @@ def cv_model(X, y, features, n_fold=5, random_state=45245, params=params):
     model = XGBRegressor(**params)
     results_mean = []
     results_details = []
-
 
     for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
         X_train, X_valid = X.iloc[train_index], X.iloc[valid_index]
@@ -81,7 +81,7 @@ def group_mean_log_mae(y_true, y_pred, types, floor=1e-9):
         types: bond types to consider
         floor: default = 1e-9
     OUTPUT:
-        score: as described in the first link above 
+        score: as described in the first link above
     """
 
     maes = (y_true-y_pred).abs().groupby(types).mean()
