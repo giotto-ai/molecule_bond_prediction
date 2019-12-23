@@ -19,7 +19,7 @@ where:
 * T is the number of coupling types
 * n_t is the number of observations of type t
 * y_i is the actual coupling value for this sample
-* hat(y_i) is the predicted coupling value for this sample
+* ![](https://render.githubusercontent.com/render/math?math=%5Chat%7By_i%7D) is the predicted coupling value for this sample
 
 
 The figure below summarizes the results and gives a comparison of the results with and without TDA.
