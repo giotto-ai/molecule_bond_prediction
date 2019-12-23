@@ -1,5 +1,5 @@
 ## Goal and Description of this repository
-The goal of this repository is to demonstrate the core funcitionalities of giotto-learn, an open-source topological data analysis library. 
+The goal of this repository is to demonstrate the core funcitionalities of giotto-learn, an open-source topological data analysis library and accompanies the blog post 'Getting started with giotto-learn – a Python library for topological machine learning' that can be found here: LINK HERE.
 
 This demo is based on the Kaggle competition 'Predicting Molecular Properties' (Link: https://www.kaggle.com/c/champs-scalar-coupling/overview) where the task is to predict the bond strength between atoms in molecules.
 
