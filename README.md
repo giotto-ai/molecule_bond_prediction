@@ -35,6 +35,9 @@ The following Kaggle notebooks were used for this project:
 * For plotting molecules (but adapted): https://www.kaggle.com/mykolazotko/3d-visualization-of-molecules-with-plotly
 
 ## Some related publications
+To get an introduction to topological data analysis:
+* An introduction to Topological Data Analysis: fundamental and practical aspects for data scientists: https://arxiv.org/pdf/1710.04019.pdf
+
 The idea to use topological data analysis for predictions on molecules is not new. Below you can find some interesting papers related to this:
 
 * Persistent-Homology-based Machine Learning and its Applications – A Survey: https://arxiv.org/abs/1811.00252 (esp. section 5)
@@ -43,6 +46,3 @@ The idea to use topological data analysis for predictions on molecules is not ne
 The following papers were used to get some inspiration for the feature creation:
 * The Ring of Algebraic Functions on Persistence Bar Codes: https://arxiv.org/pdf/1304.0530.pdf
 * A topological approach for protein classification: https://arxiv.org/pdf/1510.00953.pdf
-
-And to get an introduction to topological data analysis:
-* An introduction to Topological Data Analysis: fundamental and practical aspects for data scientists: https://arxiv.org/pdf/1710.04019.pdf
