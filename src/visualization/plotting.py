@@ -1,7 +1,10 @@
 """Plot functions """
 
 import numpy as np
+import pandas as pd
 import plotly.graph_objs as gobj
+import seaborn as sns
+import matplotlib.pyplot as plt
 from giotto.diagrams._utils import _subdiagrams
 
 
@@ -393,3 +396,24 @@ def plot_betti_surfaces(betti_curves, samplings=None,
                                        connectgaps=True, hoverinfo='none'))
 
             fig.show()
+
+
+def plot_molecule_types(molecule_selection):
+    """
+    INPUT:
+        molecule_selection: list of chosen molecules
+
+    OUTPUT:
+        fig: figure object showing the molecule types and their scalar coupling constant distribution
+             as a violin plot
+    """
+    file_folder = '../data/raw'
+    train = pd.read_csv(f'{file_folder}/train.csv')
+    selection = train[train['molecule_name'].isin(molecule_selection)].reset_index()
+
+    sns.set(font_scale=2.5)
+    fig, ax = plt.subplots(figsize = (18, 10))
+    sns.violinplot(x='type', y='scalar_coupling_constant', data=selection)
+    plt.ylabel("Scalar coupling constant")
+    fig.tight_layout()
+    fig.show()

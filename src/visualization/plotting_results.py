@@ -28,8 +28,8 @@ def plot_results(df):
     OUTPUT:
         fig: plotly object
     """
-    keyword_dict = {0: 'without TDA',
-                    1: 'with TDA'}
+    keyword_dict = {0: 'without topological features',
+                    1: 'with topological features'}
     fig = gobj.Figure()
 
     for c in (set(df.columns)-set(['ticktext'])):
