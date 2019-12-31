@@ -30,8 +30,7 @@ def plot_point_cloud(point_cloud, dimension=None):
 
     # Check consistency between point_cloud and dimension
     if point_cloud.shape[1] < dimension:
-        raise ValueError("Not enough dimensions available in the input point"
-                         "cloud.")
+        raise ValueError("Not enough dimensions available in the input point" "cloud.")
 
     if dimension == 2:
         layout = {
@@ -47,7 +46,7 @@ def plot_point_cloud(point_cloud, dimension=None):
                 "showline": True,
                 "zeroline": True,
                 "showexponent": "all",
-                "exponentformat": "e"
+                "exponentformat": "e",
             },
             "yaxis1": {
                 "title": "Second coordinate",
@@ -58,25 +57,28 @@ def plot_point_cloud(point_cloud, dimension=None):
                 "showline": True,
                 "zeroline": True,
                 "showexponent": "all",
-                "exponentformat": "e"
+                "exponentformat": "e",
             },
-            "plot_bgcolor": "white"
+            "plot_bgcolor": "white",
         }
 
         fig = gobj.Figure(layout=layout)
-        fig.update_xaxes(zeroline=True, linewidth=1, linecolor='black',
-                         mirror=False)
-        fig.update_yaxes(zeroline=True, linewidth=1, linecolor='black',
-                         mirror=False)
+        fig.update_xaxes(zeroline=True, linewidth=1, linecolor="black", mirror=False)
+        fig.update_yaxes(zeroline=True, linewidth=1, linecolor="black", mirror=False)
 
-        fig.add_trace(gobj.Scatter(x=point_cloud[:, 0],
-                                   y=point_cloud[:, 1],
-                                   mode='markers',
-                                   marker=dict(size=4,
-                                               color=list(range(
-                                                   point_cloud.shape[0])),
-                                               colorscale='Viridis',
-                                               opacity=0.8)))
+        fig.add_trace(
+            gobj.Scatter(
+                x=point_cloud[:, 0],
+                y=point_cloud[:, 1],
+                mode="markers",
+                marker=dict(
+                    size=4,
+                    color=list(range(point_cloud.shape[0])),
+                    colorscale="Viridis",
+                    opacity=0.8,
+                ),
+            )
+        )
         fig.show()
     elif dimension == 3:
 
@@ -85,36 +87,41 @@ def plot_point_cloud(point_cloud, dimension=None):
                 "title": "First coordinate",
                 "type": "linear",
                 "showexponent": "all",
-                "exponentformat": "e"
+                "exponentformat": "e",
             },
             "yaxis": {
                 "title": "Second coordinate",
                 "type": "linear",
                 "showexponent": "all",
-                "exponentformat": "e"
+                "exponentformat": "e",
             },
             "zaxis": {
                 "title": "Third coordinate",
                 "type": "linear",
                 "showexponent": "all",
-                "exponentformat": "e"
-            }
+                "exponentformat": "e",
+            },
         }
 
         fig = gobj.Figure()
         fig.update_layout(scene=scene, title="Point cloud")
 
-        fig.add_trace(gobj.Scatter3d(x=point_cloud[:, 0],
-                                     y=point_cloud[:, 1],
-                                     z=point_cloud[:, 2],
-                                     mode='markers',
-                                     marker=dict(size=4,
-                                                 color=list(range(
-                                                     point_cloud.shape[0])),
-                                                 colorscale='Viridis',
-                                                 opacity=0.8)))
+        fig.add_trace(
+            gobj.Scatter3d(
+                x=point_cloud[:, 0],
+                y=point_cloud[:, 1],
+                z=point_cloud[:, 2],
+                mode="markers",
+                marker=dict(
+                    size=4,
+                    color=list(range(point_cloud.shape[0])),
+                    colorscale="Viridis",
+                    opacity=0.8,
+                ),
+            )
+        )
 
-        #fig.show()
+        # fig.show()
         return fig
     else:
         raise ValueError("The value of the dimension is different from 2 or 3")
@@ -154,7 +161,7 @@ def plot_diagram(diagram, homology_dimensions=None):
             "showline": True,
             "zeroline": True,
             "showexponent": "all",
-            "exponentformat": "e"
+            "exponentformat": "e",
         },
         "yaxis1": {
             "title": "Death",
@@ -166,33 +173,38 @@ def plot_diagram(diagram, homology_dimensions=None):
             "showline": True,
             "zeroline": True,
             "showexponent": "all",
-            "exponentformat": "e"
+            "exponentformat": "e",
         },
-        "plot_bgcolor": "white"
+        "plot_bgcolor": "white",
     }
 
     fig = gobj.Figure(layout=layout)
-    fig.update_xaxes(zeroline=True, linewidth=1, linecolor='black',
-                     mirror=False)
-    fig.update_yaxes(zeroline=True, linewidth=1, linecolor='black',
-                     mirror=False)
+    fig.update_xaxes(zeroline=True, linewidth=1, linecolor="black", mirror=False)
+    fig.update_yaxes(zeroline=True, linewidth=1, linecolor="black", mirror=False)
 
-    fig.add_trace(gobj.Scatter(x=np.array([-100 * maximum_persistence,
-                                           100 * maximum_persistence]),
-                               y=np.array([-100 * maximum_persistence,
-                                           100 * maximum_persistence]),
-                               mode='lines',
-                               line=dict(dash='dash', width=1, color='black'),
-                               showlegend=False, hoverinfo='none'))
+    fig.add_trace(
+        gobj.Scatter(
+            x=np.array([-100 * maximum_persistence, 100 * maximum_persistence]),
+            y=np.array([-100 * maximum_persistence, 100 * maximum_persistence]),
+            mode="lines",
+            line=dict(dash="dash", width=1, color="black"),
+            showlegend=False,
+            hoverinfo="none",
+        )
+    )
 
     for i, dimension in enumerate(homology_dimensions):
         name = f"H{int(dimension)}"
-        subdiagram = _subdiagrams(np.asarray([diagram]), [dimension],
-                                  remove_dim=True)[0]
-        diff = (subdiagram[:, 1] != subdiagram[:, 0])
+        subdiagram = _subdiagrams(np.asarray([diagram]), [dimension], remove_dim=True)[
+            0
+        ]
+        diff = subdiagram[:, 1] != subdiagram[:, 0]
         subdiagram = subdiagram[diff]
-        fig.add_trace(gobj.Scatter(x=subdiagram[:, 0], y=subdiagram[:, 1],
-                                   mode='markers', name=name))
+        fig.add_trace(
+            gobj.Scatter(
+                x=subdiagram[:, 0], y=subdiagram[:, 1], mode="markers", name=name
+            )
+        )
 
     return fig
 
@@ -231,7 +243,7 @@ def plot_landscapes(landscapes, homology_dimensions=None, samplings=None):
             "showline": True,
             "zeroline": True,
             "showexponent": "all",
-            "exponentformat": "e"
+            "exponentformat": "e",
         },
         "yaxis1": {
             "side": "left",
@@ -241,28 +253,32 @@ def plot_landscapes(landscapes, homology_dimensions=None, samplings=None):
             "showline": True,
             "zeroline": True,
             "showexponent": "all",
-            "exponentformat": "e"
+            "exponentformat": "e",
         },
-        "plot_bgcolor": "white"
+        "plot_bgcolor": "white",
     }
 
     for i, dimension in enumerate(homology_dimensions):
         layout_dim = layout.copy()
-        layout_dim['title'] = f"Persistence landscape for homology dimension" \
-                              f"{int(dimension)}"
+        layout_dim["title"] = (
+            f"Persistence landscape for homology dimension" f"{int(dimension)}"
+        )
         fig = gobj.Figure(layout=layout_dim)
-        fig.update_xaxes(zeroline=True, linewidth=1, linecolor='black',
-                         mirror=False)
-        fig.update_yaxes(zeroline=True, linewidth=1, linecolor='black',
-                         mirror=False)
+        fig.update_xaxes(zeroline=True, linewidth=1, linecolor="black", mirror=False)
+        fig.update_yaxes(zeroline=True, linewidth=1, linecolor="black", mirror=False)
 
         n_layers = landscapes.shape[1]
         for layer in range(n_layers):
-            fig.add_trace(gobj.Scatter(x=samplings,
-                                       y=landscapes[i, layer, :],
-                                       mode='lines', showlegend=False,
-                                       hoverinfo='none',
-                                       name=f"layer {layer + 1}"))
+            fig.add_trace(
+                gobj.Scatter(
+                    x=samplings,
+                    y=landscapes[i, layer, :],
+                    mode="lines",
+                    showlegend=False,
+                    hoverinfo="none",
+                    name=f"layer {layer + 1}",
+                )
+            )
 
         fig.show()
 
@@ -303,7 +319,7 @@ def plot_betti_curves(betti_curves, homology_dimensions=None, samplings=None):
             "showline": True,
             "zeroline": True,
             "showexponent": "all",
-            "exponentformat": "e"
+            "exponentformat": "e",
         },
         "yaxis1": {
             "title": "Betti number",
@@ -314,28 +330,31 @@ def plot_betti_curves(betti_curves, homology_dimensions=None, samplings=None):
             "showline": True,
             "zeroline": True,
             "showexponent": "all",
-            "exponentformat": "e"
+            "exponentformat": "e",
         },
-        "plot_bgcolor": "white"
+        "plot_bgcolor": "white",
     }
     fig = gobj.Figure(layout=layout)
-    fig.update_xaxes(zeroline=True, linewidth=1, linecolor='black',
-                     mirror=False)
-    fig.update_yaxes(zeroline=True, linewidth=1, linecolor='black',
-                     mirror=False)
+    fig.update_xaxes(zeroline=True, linewidth=1, linecolor="black", mirror=False)
+    fig.update_yaxes(zeroline=True, linewidth=1, linecolor="black", mirror=False)
 
     for i, dimension in enumerate(homology_dimensions):
-        fig.add_trace(gobj.Scatter(x=samplings,
-                                   y=betti_curves[i, :],
-                                   mode='lines', showlegend=False,
-                                   hoverinfo='none', name = str(dimension)))
+        fig.add_trace(
+            gobj.Scatter(
+                x=samplings,
+                y=betti_curves[i, :],
+                mode="lines",
+                showlegend=False,
+                hoverinfo="none",
+                name=str(dimension),
+            )
+        )
 
     fig.update_layout(showlegend=False)
     return fig
 
 
-def plot_betti_surfaces(betti_curves, samplings=None,
-                        homology_dimensions=None):
+def plot_betti_surfaces(betti_curves, samplings=None, homology_dimensions=None):
     """Plots the Betti surfaces (Betti numbers against time and filtration
     parameter) by homology dimension.
 
@@ -368,32 +387,39 @@ def plot_betti_surfaces(betti_curves, samplings=None,
             "title": "Epsilon",
             "type": "linear",
             "showexponent": "all",
-            "exponentformat": "e"
+            "exponentformat": "e",
         },
         "yaxis": {
             "title": "Time",
             "type": "linear",
             "showexponent": "all",
-            "exponentformat": "e"
+            "exponentformat": "e",
         },
         "zaxis": {
             "title": "Betti number",
             "type": "linear",
             "showexponent": "all",
-            "exponentformat": "e"
-        }
+            "exponentformat": "e",
+        },
     }
     if betti_curves.shape[0] == 1:
         plot_betti_curves(betti_curves[0], samplings, homology_dimensions)
     else:
         for i, dimension in enumerate(homology_dimensions):
             fig = gobj.Figure()
-            fig.update_layout(scene=scene, title=f"Betti surface for homology "
-                                                 f"dimension {int(dimension)}")
-            fig.add_trace(gobj.Surface(x=samplings,
-                                       y=np.arange(betti_curves.shape[0]),
-                                       z=betti_curves[:, i, :],
-                                       connectgaps=True, hoverinfo='none'))
+            fig.update_layout(
+                scene=scene,
+                title=f"Betti surface for homology " f"dimension {int(dimension)}",
+            )
+            fig.add_trace(
+                gobj.Surface(
+                    x=samplings,
+                    y=np.arange(betti_curves.shape[0]),
+                    z=betti_curves[:, i, :],
+                    connectgaps=True,
+                    hoverinfo="none",
+                )
+            )
 
             fig.show()
 
@@ -407,13 +433,13 @@ def plot_molecule_types(molecule_selection):
         fig: figure object showing the molecule types and their scalar coupling constant distribution
              as a violin plot
     """
-    file_folder = '../data/raw'
-    train = pd.read_csv(f'{file_folder}/train.csv')
-    selection = train[train['molecule_name'].isin(molecule_selection)].reset_index()
+    file_folder = "data/raw"
+    train = pd.read_csv(f"{file_folder}/train.csv.zip", compression="zip")
+    selection = train[train["molecule_name"].isin(molecule_selection)].reset_index()
 
     sns.set(font_scale=2.5)
-    fig, ax = plt.subplots(figsize = (18, 10))
-    sns.violinplot(x='type', y='scalar_coupling_constant', data=selection)
+    fig, ax = plt.subplots(figsize=(18, 10))
+    sns.violinplot(x="type", y="scalar_coupling_constant", data=selection)
     plt.ylabel("Scalar coupling constant")
     fig.tight_layout()
     fig.show()

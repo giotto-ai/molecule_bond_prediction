@@ -544,10 +544,10 @@ def get_graph_persistence_diagrams(molecule_selection, structures, recalculate_g
             graph = nx.from_pandas_edgelist(edges, source='source', target='target')
             pers_diag_list_graph.append(computing_persistence_diagram(graph))
 
-        with open('../data/processed/graph_pd_list.pickle', 'wb') as f:
+        with open('data/processed/graph_pd_list.pkl', 'wb') as f:
             pickle.dump(pers_diag_list_graph, f)
     else:
-        with open('../data/processed/graph_pd_list.pickle', 'rb') as f:
+        with open('data/processed/graph_pd_list.pkl', 'rb') as f:
             pers_diag_list_graph = pickle.load(f)
 
     return pers_diag_list_graph
