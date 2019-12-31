@@ -110,9 +110,7 @@ venv.bak/
 
 # Data folders
 data/*
-!data/.gitkeep
-!data/generated_features/.gitkeep
-!data/figures/result.png
-figures/*
 
+# Externals
+__MACOSX/*
 .DS_Store
