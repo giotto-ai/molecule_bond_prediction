@@ -62,11 +62,13 @@ def num_relevant_holes(X_scaled, homology_dim, theta=0.5):
 
 def average_lifetime(X_scaled, homology_dim):
     """
-    INPUT:
+    Parameters
+    ----------
         X_scaled: scaled persistence diagrams, numpy array
         homology_dim: dimension of the homology to consider, integer
 
-    OUTPUT:
+    Returns
+    -------
         avg_lifetime_list: list of average lifetime for each time window
     """
 
@@ -318,8 +320,10 @@ def binned_features(X, homology_dim):
 def area_under_Betti_curve(X_betti_curves, homology_dim):
     """Compute the area under the Betti curve for a given Betti curve
 
-    INPUT:
+    Parameters
+    ----------
     X_betti_curves : ndarray, shape (n_samples, n_homology_dimensions, n_values)
+
     homology_dim : int
         Homology dimension to consider, must be contained in the persistence diagram
 
