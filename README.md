@@ -1,17 +1,24 @@
-## Goal and Description of this repository
-The goal of this repository is to demonstrate the core funcitionalities of giotto-learn, an open-source topological data analysis library and accompanies the blog post 'Getting started with giotto-learn – a Python library for topological machine learning' that can be found here: LINK HERE.
+# Predicting Molecular Bond Strengths with Topological Machine Learning
 
-This demo is based on the Kaggle competition 'Predicting Molecular Properties' (Link: https://www.kaggle.com/c/champs-scalar-coupling/overview) where the task is to predict the bond strength between atoms in molecules.
+## What is it?
+This repository showcases the core functionalities of
+[giotto-learn](https://github.com/giotto-ai/giotto-learn), a Python for
+topological machine learning. The accompanying blog post can be found here [ADD LINK].
 
-The repository contains the following:
+This demo is based on the [Predicting Molecular
+Properties](https://www.kaggle.com/c/champs-scalar-coupling/overview)
+competition on Kaggle, where the task is to predict the bond strength between atoms in molecules.
 
-* notebooks: main directory with the notebooks for feature creation and model fitting/testing
-* code: directory with additional code (e.g. to create the non-TDA features)
-* data: directory to store the data from Kaggle (download from here: https://www.kaggle.com/c/champs-scalar-coupling/data)
-* README.md
+## Getting started
+The easiest way to get started is to create a conda environment as follows:
+```
+conda create python=3.7 --name molecule -y
+conda activate molecule
+pip install -r requirements.txt
+```
 
 ## Results
-The scoring function is described on Kaggle and calculated as follows:
+The scoring function is described on Kaggle and is calculated as follows:
 <div align="center">
 <p><img src="data/figures/score.png?raw=true" width="450" /></p>
 </div>
@@ -23,7 +30,8 @@ where:
 * ![](https://render.githubusercontent.com/render/math?math=%5Chat%7By_i%7D) is the predicted coupling value for this sample
 
 
-The figure below summarizes the results and gives a comparison of the results with and without TDA.
+The figure below summarizes the results and gives a comparison of the results
+with and without topological features.
 <div align="center">
 <p><img src="data/figures/results.png?raw=true" width="1200" /></p>
 </div>
@@ -32,18 +40,12 @@ The figure below summarizes the results and gives a comparison of the results wi
 ## External code
 The following Kaggle notebooks were used for this project:
 
-* For non-TDA features: https://www.kaggle.com/robertburbidge/distance-features <br>
+* For non-topological features: https://www.kaggle.com/robertburbidge/distance-features <br>
 * For plotting molecules (but adapted): https://www.kaggle.com/mykolazotko/3d-visualization-of-molecules-with-plotly
 
-## How to get started
-The easiest way to get started is to create an environment like this:
-```
-conda create python=3.7 --name molecule
-pip install -r requirements.txt
-```
-
 ## Some related publications
-To get an introduction to topological data analysis:
+To get an introduction to the application of topological data analysis to
+machine learning, see:
 * An introduction to Topological Data Analysis: fundamental and practical aspects for data scientists: https://arxiv.org/pdf/1710.04019.pdf
 
 The idea to use topological data analysis for predictions on molecules is not new. Below you can find some interesting papers related to this:

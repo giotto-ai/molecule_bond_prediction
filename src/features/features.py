@@ -62,11 +62,13 @@ def num_relevant_holes(X_scaled, homology_dim, theta=0.5):
 
 def average_lifetime(X_scaled, homology_dim):
     """
-    INPUT:
+    Parameters
+    ----------
         X_scaled: scaled persistence diagrams, numpy array
         homology_dim: dimension of the homology to consider, integer
 
-    OUTPUT:
+    Returns
+    -------
         avg_lifetime_list: list of average lifetime for each time window
     """
 
@@ -318,8 +320,10 @@ def binned_features(X, homology_dim):
 def area_under_Betti_curve(X_betti_curves, homology_dim):
     """Compute the area under the Betti curve for a given Betti curve
 
-    INPUT:
+    Parameters
+    ----------
     X_betti_curves : ndarray, shape (n_samples, n_homology_dimensions, n_values)
+
     homology_dim : int
         Homology dimension to consider, must be contained in the persistence diagram
 
@@ -544,10 +548,10 @@ def get_graph_persistence_diagrams(molecule_selection, structures, recalculate_g
             graph = nx.from_pandas_edgelist(edges, source='source', target='target')
             pers_diag_list_graph.append(computing_persistence_diagram(graph))
 
-        with open('../data/processed/graph_pd_list.pickle', 'wb') as f:
+        with open('data/processed/graph_pd_list.pkl', 'wb') as f:
             pickle.dump(pers_diag_list_graph, f)
     else:
-        with open('../data/processed/graph_pd_list.pickle', 'rb') as f:
+        with open('data/processed/graph_pd_list.pkl', 'rb') as f:
             pers_diag_list_graph = pickle.load(f)
 
     return pers_diag_list_graph
