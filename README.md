@@ -3,7 +3,7 @@
 ## What is it?
 This repository showcases the core functionalities of
 [giotto-learn](https://github.com/giotto-ai/giotto-learn), a Python for
-topological machine learning. The accompanying blog post can be found here [ADD LINK].
+topological machine learning. The accompanying blog post can be found [here](https://medium.com/p/getting-started-with-giotto-learn-a-python-library-for-topological-machine-learning-451d88d2c4bc?source=email-22cbcf87e250--writer.postDistributed&sk=c5dffceb84a1108ea916f136f519258e).
 
 This demo is based on the [Predicting Molecular
 Properties](https://www.kaggle.com/c/champs-scalar-coupling/overview)
