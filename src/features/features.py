@@ -8,8 +8,8 @@ from scipy.stats import skew, kurtosis
 from numpy.random import permutation
 from sklearn import metrics
 from sklearn.preprocessing import LabelEncoder
-import giotto.diagrams as diag
-from giotto.homology import VietorisRipsPersistence
+import gtda.diagrams as diag
+from gtda.homology import VietorisRipsPersistence
 
 from itertools import product
 import networkx as nx

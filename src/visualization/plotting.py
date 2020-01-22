@@ -5,7 +5,7 @@ import pandas as pd
 import plotly.graph_objs as gobj
 import seaborn as sns
 import matplotlib.pyplot as plt
-from giotto.diagrams._utils import _subdiagrams
+from gtda.diagrams._utils import _subdiagrams
 
 
 def plot_point_cloud(point_cloud, dimension=None):
